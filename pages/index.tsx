@@ -60,7 +60,7 @@ export default function Home() {
                 </Button>
                 <Button
                   type="link"
-                  href="/user/create"
+                  href="/supplier/create"
                   className={["btn btn-primary btn-sm me-2"]}
                 >
                   Tambah Data
@@ -93,14 +93,14 @@ export default function Home() {
                         </Button>
                         <Button
                           type="link"
-                          href={`user/edit/${item.id}`}
+                          href={`supplier/edit/${item.id}`} 
                           className={["btn btn-warning btn-sm me-2"]}
                         >
                           Update
                         </Button>
                         <Button
                           type="button"
-                          href={`user/edit/${item.id}`}
+                          href={`supplier/edit/${item.id}`}
                           className={["btn btn-danger btn-sm me-2"]}
                         >
                           Hapus

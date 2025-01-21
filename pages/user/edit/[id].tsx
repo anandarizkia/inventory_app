@@ -1,22 +1,23 @@
-import Button from "@/components/atoms/Button";
-import Layout from "@/components/organisms/Layout";
-import { supplierType } from "@/services/data-types/supplier-type";
-import { supplierServiceStore } from "@/services/supplier-service";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import Button from '@/components/atoms/Button';
+import Layout from '@/components/organisms/Layout';
+import { userType } from '@/services/data-types/user-type';
+import { userServiceEdit, userServiceUpdate } from '@/services/user-service';
+import React, { useState } from 'react';
 
-export default function CreateSupplier() {
-  const router = useRouter();
-  const [datas, setDatas] = useState<supplierType>({
-    Supplier_Name: "",
-    Supplier_Contact: "",
-    Address: "",
-  });
+export default function EditUser({
+  userDetail,
+  id,
+}: {
+  userDetail: userType;
+  id: string;
+}) {
+  const [datas, setDatas] = useState<userType>(userDetail);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState({
-    Supplier_Name: "",
-    Supplier_Contact: "",
-    Address: "",
+    name: '',
+    email: '',
+    birthdate: '',
   });
 
   const onSubmit = async () => {
@@ -24,20 +25,20 @@ export default function CreateSupplier() {
 
     try {
       const data = new FormData();
-      data.append("Nama Supplier", datas.Supplier_Name || "");
-      data.append("Kontak", datas.Supplier_Contact || "");
-      data.append("Alamat", datas.Address || "");
+      data.append('name', datas.name);
+      data.append('email', datas.email || '');
+      data.append('birthdate', datas.birthdate || '');
 
-      const response = await supplierServiceStore(data);
+      const response = await userServiceUpdate(data, id);
 
       if (!response.error) {
-        alert("Supplier Data created unccessfully");
-        router.push("/");
+        alert('User created unccessfully');
+        // router.push('/user');
       } else {
         if (response.message) {
           Object.entries(response.message).forEach(([key, value]) => {
             if (Array.isArray(value)) {
-              setIsError({ ...isError, [key]: "is-invalid" });
+              setIsError({ ...isError, [key]: 'is-invalid' });
               alert(value[0]);
             }
           });
@@ -53,10 +54,10 @@ export default function CreateSupplier() {
     <>
       <Layout>
         <div className="container-fluid px-4">
-          <h1 className="mt-4">Suppliers</h1>
+          <h1 className="mt-4">Users</h1>
           <ol className="breadcrumb mb-4">
-            <li className="breadcrumb-item">Suppliers</li>
-            <li className="breadcrumb-item active">Tambah data supplier</li>
+            <li className="breadcrumb-item">Users</li>
+            <li className="breadcrumb-item active">Tambah data</li>
           </ol>
 
           <div className="card-body">
@@ -65,50 +66,50 @@ export default function CreateSupplier() {
                 <div className="col-sm-6 mb-4">
                   <div className="mb-3">
                     <label htmlFor="inputName" className="form-label">
-                      Nama Supplier
+                      Nama
                     </label>
                     <input
                       type="text"
                       className="form-control"
                       id="inputName"
-                      placeholder=""
-                      value={datas.Supplier_Name}
+                      placeholder={userDetail.name}
+                      value={datas.name}
                       onChange={(e) =>
-                        setDatas({ ...datas, Supplier_Name: e.target.value })
+                        setDatas({ ...datas, name: e.target.value })
                       }
                     />
                   </div>
                 </div>
                 <div className="col-sm-6 mb-4">
                   <div className="mb-3">
-                    <label htmlFor="inputContact" className="form-label">
-                      Kontak
+                    <label htmlFor="inputEmail" className="form-label">
+                      Alamat Email
                     </label>
                     <input
-                      type="text"
+                      type="email"
                       className="form-control"
-                      id="inputContact"
-                      placeholder=""
-                      value={datas.Supplier_Contact}
+                      id="inputEmail"
+                      placeholder={userDetail.email}
+                      value={datas.email}
                       onChange={(e) =>
-                        setDatas({ ...datas, Supplier_Contact: e.target.value })
+                        setDatas({ ...datas, email: e.target.value })
                       }
                     />
                   </div>
                 </div>
                 <div className="col-sm-6 mb-4">
                   <div className="mb-3">
-                    <label htmlFor="inputAddress" className="form-label">
-                      Alamat
+                    <label htmlFor="inputBirthdate" className="form-label">
+                      Birthdate
                     </label>
                     <input
-                      type="text"
+                      type="date"
                       className="form-control"
-                      id="inputAddress"
+                      id="inputBirthdate"
                       placeholder=""
-                      value={datas.Address}
+                      value={datas.birthdate}
                       onChange={(e) =>
-                        setDatas({ ...datas, Address: e.target.value })
+                        setDatas({ ...datas, birthdate: e.target.value })
                       }
                     />
                   </div>
@@ -118,7 +119,7 @@ export default function CreateSupplier() {
             <Button
               type="button"
               onClickButton={onSubmit}
-              className={["btn btn-primary"]}
+              className={['btn btn-primary']}
             >
               Submit
             </Button>
@@ -127,4 +128,23 @@ export default function CreateSupplier() {
       </Layout>
     </>
   );
+}
+
+interface GetServerSideProps {
+  params: {
+    id: string;
+  };
+}
+
+export async function getServerSideProps({ params }: GetServerSideProps) {
+  const { id } = params;
+
+  const response = await userServiceEdit(id);
+
+  return {
+    props: {
+      userDetail: response.data,
+      id: id,
+    },
+  };
 }

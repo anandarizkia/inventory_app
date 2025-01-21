@@ -11,41 +11,12 @@ export default function Sidebar() {
         >
           <div className="sb-sidenav-menu">
             <div className="nav">
-              <div className="sb-sidenav-menu-heading">Core</div>
+              <div className="sb-sidenav-menu-heading">Menu</div>
               <Button type="link" className={["nav-link"]} href="/">
-                <div className="sb-nav-link-icon">
-                </div>
+                <div className="sb-nav-link-icon"></div>
                 Suppliers
               </Button>
               <div className="sb-sidenav-menu-heading">Interface</div>
-              <a
-                className="nav-link collapsed"
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseLayouts"
-                aria-expanded="false"
-                aria-controls="collapseLayouts"
-              >
-                Layouts
-                <div className="sb-sidenav-collapse-arrow">
-                  <i className="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                className="collapse"
-                id="collapseLayouts"
-                aria-labelledby="headingOne"
-                data-bs-parent="#sidenavAccordion"
-              >
-                <nav className="sb-sidenav-menu-nested nav">
-                  <a className="nav-link" href="layout-static.html">
-                    Static Navigation
-                  </a>
-                  <a className="nav-link" href="layout-sidenav-light.html">
-                    Light Sidenav
-                  </a>
-                </nav>
-              </div>
               <a
                 className="nav-link collapsed"
                 href="#"
@@ -133,19 +104,6 @@ export default function Sidebar() {
                   </div>
                 </nav>
               </div>
-              <div className="sb-sidenav-menu-heading">Addons</div>
-              <a className="nav-link" href="charts.html">
-                <div className="sb-nav-link-icon">
-                  <i className="fas fa-chart-area"></i>
-                </div>
-                Charts
-              </a>
-              <a className="nav-link" href="tables.html">
-                <div className="sb-nav-link-icon">
-                  <i className="fas fa-table"></i>
-                </div>
-                Tables
-              </a>
             </div>
           </div>
           <div className="sb-sidenav-footer">
